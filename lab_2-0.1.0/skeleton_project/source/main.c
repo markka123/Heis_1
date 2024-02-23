@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include "ownSource/createOrder.h"
 
 
 
@@ -13,6 +14,8 @@ int main(){
     printf("Press the stop button on the elevator panel to exit\n");
 
     elevio_motorDirection(DIRN_UP);
+
+    Order lastOrder;
 
     while(1){
         int floor = elevio_floorSensor();
@@ -30,6 +33,10 @@ int main(){
             for(int b = 0; b < N_BUTTONS; b++){
                 int btnPressed = elevio_callButton(f, b);
                 elevio_buttonLamp(f, b, btnPressed);
+                if(btnPressed != 0) {
+                    lastOrder = createOrder(f, b); //returns an order
+                }
+
             }
         }
 
