@@ -14,26 +14,40 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    Order lastOrder;
+    Order lastOrder = {2, 1};
+    int currentFloor;
 
     while(1){
-        int floor = elevio_floorSensor();
+        int _floor = elevio_floorSensor();
+        if (_floor != -1) {
+            currentFloor = _floor;
+        }
 
-        for(int f = 0; f < N_FLOORS; f++){
-            for(int b = 0; b < N_BUTTONS; b++){
-                int btnPressed = elevio_callButton(f, b);
-                elevio_buttonLamp(f, b, btnPressed);
-                if(btnPressed != 0) {
-                    lastOrder = createOrder(f, b); //returns an order
+        handleOrder(lastOrder, currentFloor);
+
+        elevio_floorIndicator(currentFloor);
+
+        // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
+
+        if (currentFloor == lastOrder.floor) {
+
+            for(int f = 0; f < N_FLOORS; f++){
+                for(int b = 0; b < N_BUTTONS; b++){
+                    int btnPressed = elevio_callButton(f, b);
+                    elevio_buttonLamp(f, b, btnPressed);
+                    if(btnPressed != 0) {
+                        lastOrder = createOrder(f, b); //returns an order
+                    }
+
                 }
-
             }
         }
 
-        handleOrder(lastOrder);
+        // printf("Obstruction: %d\n", elevio_obstruction());
 
         if(elevio_obstruction()){
             elevio_stopLamp(1);
+            
         } else {
             elevio_stopLamp(0);
         }
@@ -43,7 +57,6 @@ int main(){
             break;
         }
         
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
 
     return 0;
