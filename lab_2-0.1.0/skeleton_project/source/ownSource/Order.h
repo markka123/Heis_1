@@ -12,3 +12,6 @@ typedef struct {
 } Order;
 
 Order createOrder(int floor, int btn);
+void removeOrder(Order** orders, int* size);
+void addOrder(Order*** orders, int* size, Order* order);
+void reorderOrder(Order** orders);
