@@ -14,22 +14,27 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    Order lastOrder = {2, 1};
-    int currentFloor;
+    int idleFloor = 1;
+
+    Order lastOrder = {idleFloor, 1};
+    Elevator elevator = {0, 0, (State)Running, (Door)Closed, time(NULL)};
 
     while(1){
-        int _floor = elevio_floorSensor();
-        if (_floor != -1) {
-            currentFloor = _floor;
+        int floor = elevio_floorSensor();
+        if (floor != -1) {
+            elevator.currentFloor = floor;
         }
 
-        handleOrder(lastOrder, currentFloor);
+        // Set the elevator direction up/down/stop
 
-        elevio_floorIndicator(currentFloor);
+        handleOrder(&elevator, &lastOrder);
+
+        // Update floor-indicator lamp
+        elevio_floorIndicator(elevator.currentFloor);
 
         // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
 
-        if (currentFloor == lastOrder.floor) {
+        if (elevator.currentFloor == lastOrder.floor) {
 
             for(int f = 0; f < N_FLOORS; f++){
                 for(int b = 0; b < N_BUTTONS; b++){
