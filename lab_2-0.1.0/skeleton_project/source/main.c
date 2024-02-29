@@ -19,7 +19,7 @@ int main(){
     initializeOrderArray(&orders);
 
     Order lastOrder = {idleFloor, 1};
-    Elevator elevator = {0, 0, (State)Running, (Door)Closed, time(NULL)};
+    Elevator elevator = {0, 0, (State)Idle, (Door)Closed, time(NULL)};
 
     while(1){
         int floor = elevio_floorSensor();
@@ -57,8 +57,6 @@ int main(){
 
         // printf("Obstruction: %d\n", elevio_obstruction());
 
-        
-
         if(elevio_obstruction()){
             elevio_stopLamp(1);
             
@@ -71,6 +69,7 @@ int main(){
             break;
         }
         
+
     }
 
     return 0;
