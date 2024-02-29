@@ -12,9 +12,10 @@ typedef enum {
 } Door;
 
 typedef enum {
-    Running = 0,
-    Idle = 1,
-    Stopped = 2,
+    Moving = 0,
+    Stopped = 1,
+    Idle = 2,
+    EmergencyStop = 3,
 } State;
 
 typedef struct {
@@ -26,7 +27,7 @@ typedef struct {
 } Elevator;
 
 void handleOrder(Elevator* elevator, Order* order);
-void setDirection(int* ordered_floor, int* current_floor);
+void setDirection(Elevator* elevator, int* current_floor);
 void handleDoors(Elevator* elevator, Order* order);
 void openDoor();
 void closeDoor();
