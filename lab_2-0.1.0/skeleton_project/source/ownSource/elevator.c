@@ -7,7 +7,7 @@ void handleOrder(Elevator* elevator, Order* order) {
 }
 
 void setDirection(Elevator* elevator, int* orderedFloor) {
-    if(orderedFloor = -1) {
+    if(*orderedFloor != -1) {
         if(elevator->currentFloor == *orderedFloor) {
             elevio_motorDirection(DIRN_STOP);
             elevator->state = (State)Stopped;
@@ -37,8 +37,8 @@ void closeDoor() {
 }
 
 void handleDoors(Elevator* elevator, Order* order) {
-    if(order->floor == elevator->currentFloor && elevator->state == (State)Stopped) {
-        if(elevator->doors == (Door)Closed) {
+    if(elevator->state == (State)Stopped) {
+        if(elevator->doors == (Door)Closed && elevator->state == (State)Stopped) {
             openDoor();
             elevator->timeDoorsOpened = time(NULL);
             elevator->doors = (Door)Open;
@@ -49,6 +49,7 @@ void handleDoors(Elevator* elevator, Order* order) {
             if(elapsed_time > 3 && !elevio_obstruction()) {
                 closeDoor();
                 elevator->doors = (Door)Closed;
+                elevator->state = (State)Idle;
                 // Delete order
                 // or set to idle
             }
