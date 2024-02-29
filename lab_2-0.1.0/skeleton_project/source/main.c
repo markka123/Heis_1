@@ -56,8 +56,11 @@ int main(){
         }
 
         // printf("Obstruction: %d\n", elevio_obstruction());
+<<<<<<< HEAD
 
         
+=======
+>>>>>>> 71c59bb1672b803919fa82d9d87942f6eec3ec2d
 
         if(elevio_obstruction()){
             elevio_stopLamp(1);
@@ -70,6 +73,10 @@ int main(){
             elevio_motorDirection(DIRN_STOP);
             break;
         }
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 71c59bb1672b803919fa82d9d87942f6eec3ec2d
 
     }
 
