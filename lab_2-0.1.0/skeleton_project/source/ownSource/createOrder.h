@@ -12,7 +12,7 @@ typedef struct {
 } OrderArray;
 
 
-
-Order createOrder(int floor, int btn, OrderArray* orders);
-
+//Functions
 void initializeOrderArray (OrderArray* orders);
+Order createOrder(int floor, int btn, OrderArray* orders);
+void orderFinished(OrderArray* orders);

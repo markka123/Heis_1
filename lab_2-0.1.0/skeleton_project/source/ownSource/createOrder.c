@@ -1,6 +1,14 @@
 #include "createOrder.h"
 
 
+void initializeOrderArray (OrderArray* orders) {
+    orders->size = 0;
+    for(int i = 0; i < 10; i++) {
+        orders->orders[i].floor = -1;
+    }
+}
+
+
 Order createOrder(int floor, int btn, OrderArray* orders) {
     Order o;
     o.floor = floor;
@@ -27,12 +35,18 @@ Order createOrder(int floor, int btn, OrderArray* orders) {
 }
 
 
-void initializeOrderArray (OrderArray* orders) {
-    orders->size = 0;
-    for(int i = 0; i < 10; i++) {
-        orders->orders[i].floor = -1;
-    }
+
+
+void orderFinished(OrderArray* orders) {
+    
 }
+
+
+
+
+
+
+
 //mulig å bruke
 // Order orderCreated() {
 //     for(int f = 0; f < N_FLOORS; f++){

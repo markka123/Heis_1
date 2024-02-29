@@ -2,25 +2,29 @@
 #include <time.h>
 
 void handleOrder(Elevator* elevator, Order* order) {
-    setDirection(&order->floor, &elevator->currentFloor);
+    setDirection(elevator, &order->floor);
     handleDoors(elevator, order);
 }
 
-void setDirection(int* orderedFloor, int* current_floor) {
-    if(*current_floor == *orderedFloor) {
-        elevio_motorDirection(DIRN_STOP);
-    }
+void setDirection(Elevator* elevator, int* orderedFloor) {
+    if(orderedFloor = -1) {
+        if(elevator->currentFloor == *orderedFloor) {
+            elevio_motorDirection(DIRN_STOP);
+            elevator->state = (State)Stopped;
+        }
 
-    else if (*current_floor > *orderedFloor) {
-        elevio_motorDirection(DIRN_DOWN);
-    }
+        else if (elevator->currentFloor > *orderedFloor && elevator->doors == (Door)Closed) {
+            elevio_motorDirection(DIRN_DOWN);
+            elevator->state = (State)Moving;
+        }
 
-    else if(*current_floor < *orderedFloor) {
-        elevio_motorDirection(DIRN_UP);
+        else if(elevator->currentFloor < *orderedFloor && elevator->doors == (Door)Closed) {
+            elevio_motorDirection(DIRN_UP);
+            elevator->state = (State)Moving;
+        }
     }
     else {
-        printf("Could not handle order");
-        elevio_motorDirection(DIRN_STOP);
+        elevator->state = (State)Idle;
     }
 }
 
@@ -33,7 +37,7 @@ void closeDoor() {
 }
 
 void handleDoors(Elevator* elevator, Order* order) {
-    if(order->floor == elevator->currentFloor) {
+    if(order->floor == elevator->currentFloor && elevator->state == (State)Stopped) {
         if(elevator->doors == (Door)Closed) {
             openDoor();
             elevator->timeDoorsOpened = time(NULL);
@@ -42,9 +46,11 @@ void handleDoors(Elevator* elevator, Order* order) {
         else {
             time_t elapsed_time = time(NULL) - elevator->timeDoorsOpened;
             // printf(elapsed_time > 3 && !elevio_obstruction() && elevator->state != (State)Idle);
-            if(elapsed_time > 3 && !elevio_obstruction() && elevator->state != (State)Idle) {
+            if(elapsed_time > 3 && !elevio_obstruction()) {
                 closeDoor();
-                elevator->state = (State)Idle;
+                elevator->doors = (Door)Closed;
+                // Delete order
+                // or set to idle
             }
         }
     }
