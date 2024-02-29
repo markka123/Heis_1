@@ -26,9 +26,9 @@ typedef struct {
     time_t timeDoorsOpened;
 } Elevator;
 
-void handleOrder(Elevator* elevator, Order* order);
+void handleOrders(Elevator* elevator, OrderArray* orders);
 void setDirection(Elevator* elevator, int* current_floor);
-void handleDoors(Elevator* elevator, Order* order);
+void handleDoors(Elevator* elevator, OrderArray* orders);
 void openDoor();
 void closeDoor();
 void idle();

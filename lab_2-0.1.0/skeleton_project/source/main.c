@@ -11,64 +11,61 @@
 int main(){
     elevio_init();
     
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
+    // printf("=== Example Program ===\n");
+    // printf("Press the stop button on the elevator panel to exit\n");
 
-    int idleFloor = 1;
     OrderArray orders;
     initializeOrderArray(&orders);
 
-    Order lastOrder = {idleFloor, 1};
     Elevator elevator = {0, 0, (State)Idle, (Door)Closed, time(NULL)};
 
     while(1){
-        int floor = elevio_floorSensor();
-        if (floor != -1) {
-            elevator.currentFloor = floor;
-        }
+        // int floor = elevio_floorSensor();
+        // if (floor != -1) {
+        //     elevator.currentFloor = floor;
+        // }
 
         // Set the elevator direction up/down/stop
 
-        handleOrder(&elevator, &lastOrder);
+        handleOrders(&elevator, &orders);
 
         // Update floor-indicator lamp
         elevio_floorIndicator(elevator.currentFloor);
 
-        // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
+        // // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
 
-        if (elevator.currentFloor == lastOrder.floor) {
-
-            for(int f = 0; f < N_FLOORS; f++){
-                for(int b = 0; b < N_BUTTONS; b++){
-                    int btnPressed = elevio_callButton(f, b);
-                    elevio_buttonLamp(f, b, btnPressed);
-                    if(btnPressed != 0) {
-                        lastOrder = createOrder(f, b, &orders); //returns an order
-                        for(int i = 0; i < orders.size; i++) {
-                            printf("Order floor: %d\n", orders.orders[i].floor);
-                            printf("Order btn: %d\n", orders.orders[i].btn);
-                        }
-                        printf("NEW ORDER %d\n");
+        for(int f = 0; f < N_FLOORS; f++){
+            for(int b = 0; b < N_BUTTONS; b++){
+                int btnPressed = elevio_callButton(f, b);
+                elevio_buttonLamp(f, b, btnPressed);
+                if(btnPressed != 0) {
+                    // printf("======\n");
+                    createOrder(f, b, &orders); //returns an order
+                    for(int i = 0; i < orders.size; i++) {
+                        // printf("Order floor: %d\n", orders.orderArr[i].floor);
+                        // printf("Order btn: %d\n", orders.orderArr[i].btn);
                     }
-
+                    // printf("======\n");
+                    // printf("Elevator current floor: %d\n", elevator.currentFloor);
+                    // printf("Elevator last floor: %d\n", elevator.lastFloor);
+                    // printf("Elevator state: %d\n", elevator.state);
+                    // printf("Elevator doors: %d\n", elevator.doors);
+                    // printf("NEW ORDER \n");
                 }
+
             }
         }
 
-        // printf("Obstruction: %d\n", elevio_obstruction());
-
-        if(elevio_obstruction()){
-            elevio_stopLamp(1);
-            
-        } else {
-            elevio_stopLamp(0);
-        }
+        // // printf("Obstruction: %d\n", elevio_obstruction());
         
-        if(elevio_stopButton()){
-            elevio_motorDirection(DIRN_STOP);
-            break;
-        }
-        
+        // if(elevio_stopButton() && elevator.state != EmergencyStop){
+        //     elevator.state = EmergencyStop;
+        //     elevio_stopLamp(1);
+        // }
+        // else if (elevio_stopButton() && elevator.state == EmergencyStop) {
+        //     elevator.state = (State)Idle;
+        //     elevio_stopLamp(0);
+        // }
 
     }
 

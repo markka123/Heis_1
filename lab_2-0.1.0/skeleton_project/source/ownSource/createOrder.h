@@ -8,11 +8,11 @@ typedef struct {
 
 typedef struct {
     int size;
-    Order orders[10];
+    Order orderArr[10];
 } OrderArray;
 
 
-
-Order createOrder(int floor, int btn, OrderArray* orders);
-
+//Functions
 void initializeOrderArray (OrderArray* orders);
+void createOrder(int floor, int btn, OrderArray* orders);
+void orderFinished(OrderArray* orders);
