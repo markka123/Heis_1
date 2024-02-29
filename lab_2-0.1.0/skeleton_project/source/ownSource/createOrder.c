@@ -4,18 +4,19 @@
 void initializeOrderArray (OrderArray* orders) {
     orders->size = 0;
     for(int i = 0; i < 10; i++) {
-        orders->orders[i].floor = -1;
+        Order o = {-1, (ButtonType)0};
+        orders->orderArr[i] = o;
     }
 }
 
 
-Order createOrder(int floor, int btn, OrderArray* orders) {
+void createOrder(int floor, int btn, OrderArray* orders) {
     Order o;
     o.floor = floor;
     o.btn = (ButtonType)btn;
     int found = 0;
-    for(int i = 0; i < 10; i++) {
-        if(o.btn == orders->orders[i].btn && o.floor == orders->orders[i].floor) {
+    for(int i = 0; i < orders->size; i++) {
+        if(o.btn == orders->orderArr[i].btn && o.floor == orders->orderArr[i].floor) {
             found = 1;
             break;
         }
@@ -25,20 +26,25 @@ Order createOrder(int floor, int btn, OrderArray* orders) {
             orders->size++;
         }
         for(int i = 8; i >= 0; i--) {
-            orders->orders[i+1].btn = orders->orders[i].btn;
-            orders->orders[i+1].floor = orders->orders[i].floor;
+            orders->orderArr[i+1].btn = orders->orderArr[i].btn;
+            orders->orderArr[i+1].floor = orders->orderArr[i].floor;
         }
-        orders->orders[0] = o;
+        orders->orderArr[0] = o;
     }
 
-    return o;
 }
 
 
 
 
 void orderFinished(OrderArray* orders) {
-    
+    for(int i = 0; i < 9; i++) {
+            orders->orderArr[i].btn = orders->orderArr[i+1].btn;
+            orders->orderArr[i].floor = orders->orderArr[i+1].floor;
+        }
+    Order o = {-1, (ButtonType)0};
+    orders->orderArr[9] = o;
+    orders->size --;
 }
 
 
