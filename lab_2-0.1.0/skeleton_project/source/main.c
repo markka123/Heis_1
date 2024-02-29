@@ -15,6 +15,8 @@ int main(){
     printf("Press the stop button on the elevator panel to exit\n");
 
     int idleFloor = 1;
+    OrderArray orders;
+    initializeOrderArray(&orders);
 
     Order lastOrder = {idleFloor, 1};
     Elevator elevator = {0, 0, (State)Idle, (Door)Closed, time(NULL)};
@@ -41,7 +43,12 @@ int main(){
                     int btnPressed = elevio_callButton(f, b);
                     elevio_buttonLamp(f, b, btnPressed);
                     if(btnPressed != 0) {
-                        lastOrder = createOrder(f, b); //returns an order
+                        lastOrder = createOrder(f, b, &orders); //returns an order
+                        for(int i = 0; i < orders.size; i++) {
+                            printf("Order floor: %d\n", orders.orders[i].floor);
+                            printf("Order btn: %d\n", orders.orders[i].btn);
+                        }
+                        printf("NEW ORDER %d\n");
                     }
 
                 }
@@ -49,6 +56,20 @@ int main(){
         }
 
         // printf("Obstruction: %d\n", elevio_obstruction());
+
+        if(elevio_obstruction()){
+            elevio_stopLamp(1);
+            
+        } else {
+            elevio_stopLamp(0);
+        }
+        
+        if(elevio_stopButton()){
+            elevio_motorDirection(DIRN_STOP);
+            break;
+        }
+        
+
     }
 
     return 0;

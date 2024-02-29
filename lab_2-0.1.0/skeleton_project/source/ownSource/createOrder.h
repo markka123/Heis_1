@@ -1,14 +1,18 @@
 #pragma once
 #include "../driver/elevio.h"
-typedef enum {
-    Up = 0,
-    Down = 1,
-    Cab = 2,
-} whichButton;
 
 typedef struct {
     int floor;
-    whichButton btn;
+    ButtonType btn;
 } Order;
 
-Order createOrder(int floor, int btn);
+typedef struct {
+    int size;
+    Order orders[10];
+} OrderArray;
+
+
+
+Order createOrder(int floor, int btn, OrderArray* orders);
+
+void initializeOrderArray (OrderArray* orders);
