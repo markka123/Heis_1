@@ -5,7 +5,7 @@
 #include "driver/elevio.h"
 #include "ownSource/createOrder.h"
 #include "ownSource/elevator.h"
-
+#include "ownSource/queueHandler.h"
 
 
 int main(){
@@ -41,10 +41,10 @@ int main(){
                 if(btnPressed != 0) {
                     // printf("======\n");
                     createOrder(f, b, &orders); //returns an order
-                    for(int i = 0; i < orders.size; i++) {
-                        // printf("Order floor: %d\n", orders.orderArr[i].floor);
-                        // printf("Order btn: %d\n", orders.orderArr[i].btn);
-                    }
+                    // for(int i = 0; i < orders.size; i++) {
+                    //     // printf("Order floor: %d\n", orders.orderArr[i].floor);
+                    //     // printf("Order btn: %d\n", orders.orderArr[i].btn);
+                    // }
                     // printf("======\n");
                     // printf("Elevator current floor: %d\n", elevator.currentFloor);
                     // printf("Elevator last floor: %d\n", elevator.lastFloor);
@@ -52,9 +52,10 @@ int main(){
                     // printf("Elevator doors: %d\n", elevator.doors);
                     // printf("NEW ORDER \n");
                 }
-
             }
         }
+
+        reorderQueue(&elevator, &orders);
 
         // // printf("Obstruction: %d\n", elevio_obstruction());
         
