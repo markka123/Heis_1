@@ -4,4 +4,4 @@
 #include "elevator.h"
 
 
-void reorderQueue(Elevator* elevator, Order* orders[]);
+void reorderQueue(Elevator* elevator, OrderArray* orderArray);

@@ -38,12 +38,9 @@ void createOrder(int floor, int btn, OrderArray* orders) {
     }
 }
 
-
-
-
 void orderFinished(OrderArray* orders) {
     for(int i = 0; i < 9; i++) {
-            orders->orderArr[i].borders->size --;tn = orders->orderArr[i+1].btn;
+            orders->orderArr[i].btn = orders->orderArr[i+1].btn;
             orders->orderArr[i].floor = orders->orderArr[i+1].floor;
         }
     Order o = {-1, (ButtonType)0};
