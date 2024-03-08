@@ -27,8 +27,6 @@ int main(){
 
         // Set the elevator direction up/down/stop
 
-        handleOrders(&elevator, &orders);
-
         // Update floor-indicator lamp
         elevio_floorIndicator(elevator.currentFloor);
 
@@ -36,8 +34,7 @@ int main(){
 
         for(int f = 0; f < N_FLOORS; f++){
             for(int b = 0; b < N_BUTTONS; b++){
-                
-
+                handleOrders(&elevator, &orders);
                 int btnPressed = elevio_callButton(f, b);
                 elevio_buttonLamp(f, b, btnPressed);
                 if(btnPressed != 0) {
@@ -58,6 +55,7 @@ int main(){
         }
 
         reorderQueue(&elevator, &orders);
+        
 
         // // printf("Obstruction: %d\n", elevio_obstruction());
         
