@@ -35,7 +35,10 @@ int main(){
         // // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
 
         for(int f = 0; f < N_FLOORS; f++){
+            handleOrders(&elevator, &orders);
             for(int b = 0; b < N_BUTTONS; b++){
+                
+
                 int btnPressed = elevio_callButton(f, b);
                 elevio_buttonLamp(f, b, btnPressed);
                 if(btnPressed != 0) {
