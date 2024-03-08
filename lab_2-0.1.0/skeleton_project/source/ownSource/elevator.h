@@ -31,6 +31,4 @@ void setDirection(Elevator* elevator, int* current_floor);
 void handleDoors(Elevator* elevator, OrderArray* orders);
 void openDoor();
 void closeDoor();
-void idle();
-
 void checkForStop(Elevator* elevator, OrderArray* orders);
