@@ -15,7 +15,7 @@ void setDirection(Elevator* elevator, int* orderedFloor) {
     }
     // Check if the order is a real order
     if (elevator->state == (State)EmergencyStop) {
-        elevator->state = (State)Stopped;
+        elevio_motorDirection(DIRN_STOP);
     }
     else if(*orderedFloor != -1) {
         // Set the direction of the elevator
@@ -84,27 +84,24 @@ void checkForStop(Elevator* elevator, OrderArray* orders) {
     if(stopBtnActive && elevator->state != EmergencyStop){
         // Skru på stop lampen
         elevio_stopLamp(1);
-        // Kopier siste ordre
-        Order lastOrder = orders->orderArr[0];
         // Tøm ordrekø
         initializeOrderArray(orders);
+        
+        createOrder(elevator->lastFloor, (ButtonType)BUTTON_CAB, orders);
+
         if(elevio_floorSensor() == -1) {
-            Order newOrder;
             if(elevator->state == (State)MovingUp) {
-                newOrder.floor = elevator->lastFloor - 1;
-                newOrder.btn = (ButtonType)BUTTON_CAB;
+                elevator->lastFloor ++;
             }
-            else {
-                newOrder.floor = elevator->lastFloor + 1;
-                newOrder.btn = (ButtonType)BUTTON_CAB;
+            else if (elevator->state == (State)MovingDown) { 
+                elevator->lastFloor --;
             }
-            orders->orderArr[0] = newOrder;
         }
 
         //Definer state
         elevator->state = EmergencyStop;
 
-        }
+    }
     else if (!elevio_stopButton() && elevator->state == EmergencyStop) {
         elevator->state = (State)Idle;
         elevio_stopLamp(0);

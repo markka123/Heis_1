@@ -6,6 +6,12 @@ void initializeOrderArray (OrderArray* orders) {
     for(int i = 0; i < 10; i++) {
         Order o = {-1, (ButtonType)0};
         orders->orderArr[i] = o;
+
+    }
+    for(int f = 0; f < N_FLOORS; f++){
+            for(int b = 0; b < N_BUTTONS; b++){
+                elevio_buttonLamp(f, b, 0);
+            }
     }
 }
 
@@ -45,6 +51,7 @@ void orderFinished(OrderArray* orders) {
             orders->orderArr[i].floor = orders->orderArr[i+1].floor;
         }
     Order o = {-1, (ButtonType)0};
+    
     orders->orderArr[orders->size - 1] = o;
     orders->size --;
 }
