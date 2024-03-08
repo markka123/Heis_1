@@ -20,13 +20,13 @@ void setDirection(Elevator* elevator, int* orderedFloor) {
             elevio_motorDirection(DIRN_STOP);
             elevator->state = (State)Stopped;
         }
-
-        else if (elevator->currentFloor > *orderedFloor && elevator->doors == (Door)Closed) {
+        // && elevator->doors == (Door)Closed
+        else if (elevator->currentFloor > *orderedFloor) {
             elevio_motorDirection(DIRN_DOWN);
             elevator->state = (State)MovingDown;
         }
 
-        else if(elevator->currentFloor < *orderedFloor && elevator->doors == (Door)Closed) {
+        else if(elevator->currentFloor < *orderedFloor ) {
             elevio_motorDirection(DIRN_UP);
             elevator->state = (State)MovingUp;
         }
