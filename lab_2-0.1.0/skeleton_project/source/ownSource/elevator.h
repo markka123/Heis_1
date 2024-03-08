@@ -12,10 +12,11 @@ typedef enum {
 } Door;
 
 typedef enum {
-    Moving = 0,
-    Stopped = 1,
-    Idle = 2,
-    EmergencyStop = 3,
+    MovingUp = 0,
+    MovingDown = 1,
+    Stopped = 2,
+    Idle = 3,
+    EmergencyStop = 4,
 } State;
 
 typedef struct {

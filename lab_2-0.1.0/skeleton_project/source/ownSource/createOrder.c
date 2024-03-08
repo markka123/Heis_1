@@ -36,7 +36,6 @@ void createOrder(int floor, int btn, OrderArray* orders) {
         // }
         // orders->orderArr[0] = o;
     }
-
 }
 
 
