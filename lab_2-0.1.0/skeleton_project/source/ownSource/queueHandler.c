@@ -19,7 +19,7 @@ void reorderQueue(Elevator* elevator, OrderArray* orderArray) {
                 else {
                     for(int i = orderArray->size - 2; i >= 0; i--) {
                         orderArray->orderArr[i+1].btn = orderArray->orderArr[i].btn;
-                        orderArray->orderArr[i+1].floor = orderArray->orderArr[i].floor;
+                        orderArray->orderArr[i+1].floorsetDirection = orderArray->orderArr[i].floor;
                     }
                 }
                 orderArray->orderArr[0] = o;
