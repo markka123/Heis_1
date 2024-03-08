@@ -45,13 +45,16 @@ void createOrder(int floor, int btn, OrderArray* orders) {
 }
 
 void orderFinished(OrderArray* orders) {
-    elevio_buttonLamp(orders->orderArr[0].floor, orders->orderArr[0].btn, 0);
+    if(orders->orderArr[0].floor != -1) {
+        elevio_buttonLamp(orders->orderArr[0].floor, orders->orderArr[0].btn, 0);
+    }
+    
     for(int i = 0; i < orders->size-1; i++) {
             orders->orderArr[i].btn = orders->orderArr[i+1].btn;
             orders->orderArr[i].floor = orders->orderArr[i+1].floor;
         }
     Order o = {-1, (ButtonType)0};
-    
+
     orders->orderArr[orders->size - 1] = o;
     orders->size --;
 }

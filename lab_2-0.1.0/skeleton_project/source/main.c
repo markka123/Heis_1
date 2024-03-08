@@ -16,9 +16,12 @@ int main(){
 
     OrderArray orders;
     initializeOrderArray(&orders);
+    Elevator elevator = {0, (State)Idle, (Door)Closed, time(NULL)};
 
-    Elevator elevator = {0, 0, (State)Idle, (Door)Closed, time(NULL)};
-
+    createOrder(0, 0, &orders);
+    while(orders.size > 0) {
+        handleOrders(&elevator, &orders);
+    }
     while(1){
         // int floor = elevio_floorSensor();
         // if (floor != -1) {
@@ -29,12 +32,12 @@ int main(){
 
         // Update floor-indicator lamp
         elevio_floorIndicator(elevator.currentFloor);
-
         // // printf("Current Floor: %d, Last Order Floor: %d\n", currentFloor, lastOrder.floor);
         if( elevator.state != (State)EmergencyStop) {
             for(int f = 0; f < N_FLOORS; f++){
                 for(int b = 0; b < N_BUTTONS; b++){
                     handleOrders(&elevator, &orders);
+                    
                     int btnPressed = elevio_callButton(f, b);
                     // elevio_buttonLamp(f, b, btnPressed);
                     if(btnPressed != 0) {
@@ -53,14 +56,17 @@ int main(){
                     }
                 }
             }
+            reorderQueue(&elevator, &orders);
         }
 
-        reorderQueue(&elevator, &orders);
+        checkForStop(&elevator, &orders);
+
+        printf("%d\n", elevio_stopButton());
         
 
         // // printf("Obstruction: %d\n", elevio_obstruction());
         
-        checkForStop(&elevator, &orders);
+        
 
     }
 

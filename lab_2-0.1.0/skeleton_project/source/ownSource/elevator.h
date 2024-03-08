@@ -21,7 +21,6 @@ typedef enum {
 
 typedef struct {
     int currentFloor;
-    int lastFloor;
     State state;
     Door doors;
     time_t timeDoorsOpened;

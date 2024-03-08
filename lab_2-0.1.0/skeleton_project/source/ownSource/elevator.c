@@ -86,24 +86,37 @@ void checkForStop(Elevator* elevator, OrderArray* orders) {
         elevio_stopLamp(1);
         // Tøm ordrekø
         initializeOrderArray(orders);
-        
-        createOrder(elevator->lastFloor, (ButtonType)BUTTON_CAB, orders);
+
+        createOrder(elevator->currentFloor, (ButtonType)BUTTON_CAB, orders);
 
         if(elevio_floorSensor() == -1) {
             if(elevator->state == (State)MovingUp) {
-                elevator->lastFloor ++;
+                elevator->currentFloor ++;
             }
             else if (elevator->state == (State)MovingDown) { 
-                elevator->lastFloor --;
+                elevator->currentFloor --;
             }
         }
-
+        
         //Definer state
-        elevator->state = EmergencyStop;
-
+        elevator->state = (State)EmergencyStop;
+        
+        handleOrders(elevator, orders);
+        struct timespec ts;
+        ts.tv_sec = 0;
+        ts.tv_nsec = 150000000L;
+        nanosleep(&ts, NULL);
     }
-    else if (!elevio_stopButton() && elevator->state == EmergencyStop) {
+    else if (elevio_stopButton() && elevator->state == EmergencyStop) {
+        // printf("Deactivating stop button");
         elevator->state = (State)Idle;
         elevio_stopLamp(0);
+
+        handleOrders(elevator, orders);
+
+        struct timespec ts;
+        ts.tv_sec = 0;
+        ts.tv_nsec = 150000000L;
+        nanosleep(&ts, NULL);
     }
 }

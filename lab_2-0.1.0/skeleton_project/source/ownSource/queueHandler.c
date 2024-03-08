@@ -8,7 +8,7 @@ void reorderQueue(Elevator* elevator, OrderArray* orderArray) {
         Order o = orderArray->orderArr[i];
         // If elevator is moving up, check for people between 
         // current floor and ordered floor  that are also going up
-        printf("Order floors to be sorted: %d\n", o.floor);
+        // printf("Order floors to be sorted: %d\n", o.floor);
         
         if(elevator->state == (State)MovingUp && (o.btn == (ButtonType)BUTTON_HALL_UP || o.btn == (ButtonType)BUTTON_CAB)) {
             printf("hei halvveis på vei opp \n");
