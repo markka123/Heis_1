@@ -36,7 +36,7 @@ int main(){
             for(int b = 0; b < N_BUTTONS; b++){
                 handleOrders(&elevator, &orders);
                 int btnPressed = elevio_callButton(f, b);
-                elevio_buttonLamp(f, b, btnPressed);
+                // elevio_buttonLamp(f, b, btnPressed);
                 if(btnPressed != 0) {
                     // printf("======\n");
                     createOrder(f, b, &orders); //returns an order
