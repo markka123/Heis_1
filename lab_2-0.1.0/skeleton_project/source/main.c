@@ -59,14 +59,7 @@ int main(){
 
         // // printf("Obstruction: %d\n", elevio_obstruction());
         
-        // if(elevio_stopButton() && elevator.state != EmergencyStop){
-        //     elevator.state = EmergencyStop;
-        //     elevio_stopLamp(1);
-        // }
-        // else if (elevio_stopButton() && elevator.state == EmergencyStop) {
-        //     elevator.state = (State)Idle;
-        //     elevio_stopLamp(0);
-        // }
+        checkForStop(&elevator, &orders);
 
     }
 
