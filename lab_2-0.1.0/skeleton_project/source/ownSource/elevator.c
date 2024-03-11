@@ -57,13 +57,18 @@ void handleDoors(Elevator* elevator, OrderArray* orders) {
             elevator->doors = (Door)Open;
         }
         else {
-            time_t elapsed_time = time(NULL) - elevator->timeDoorsOpened;
-            // // printf(elapsed_time > 3 && !elevio_obstruction() && elevator->state != (State)Idle);
-            if(elapsed_time > 3 && !elevio_obstruction()) {
-                closeDoor();
-                elevator->doors = (Door)Closed;
-                elevator->state = (State)Idle;
-                orderFinished(orders);
+            if(elevio_obstruction()) {
+                elevator->timeDoorsOpened = time(NULL);
+            }
+            else {
+                time_t elapsed_time = time(NULL) - elevator->timeDoorsOpened;
+                // // printf(elapsed_time > 3 && !elevio_obstruction() && elevator->state != (State)Idle);
+                if(elapsed_time > 3 && !elevio_obstruction()) {
+                    closeDoor();
+                    elevator->doors = (Door)Closed;
+                    elevator->state = (State)Idle;
+                    orderFinished(orders);
+                }
             }
         }
     }
@@ -107,9 +112,10 @@ void checkForStop(Elevator* elevator, OrderArray* orders) {
         ts.tv_nsec = 150000000L;
         nanosleep(&ts, NULL);
     }
-    else if (elevio_stopButton() && elevator->state == EmergencyStop) {
+    else if (!elevio_stopButton() && elevator->state == EmergencyStop) {
         // printf("Deactivating stop button");
         elevator->state = (State)Idle;
+        elevator->timeDoorsOpened = time(NULL);
         elevio_stopLamp(0);
 
         handleOrders(elevator, orders);

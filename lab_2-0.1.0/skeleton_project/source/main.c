@@ -15,7 +15,7 @@ int main(){
 
     OrderArray orders;
     initializeOrderArray(&orders);
-    Elevator elevator = {0, (State)Idle, (Door)Closed, time(NULL)};
+    Elevator elevator = {2, (State)Idle, (Door)Closed, time(NULL)};
 
     createOrder(0, 0, &orders);
     while(orders.size > 0) {

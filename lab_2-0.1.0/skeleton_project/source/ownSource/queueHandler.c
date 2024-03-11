@@ -9,17 +9,15 @@ void reorderQueue(Elevator* elevator, OrderArray* orderArray) {
         // current floor and ordered floor that are also going up
         
         if(elevator->state == (State)MovingUp && (o.btn == (ButtonType)BUTTON_HALL_UP || o.btn == (ButtonType)BUTTON_CAB)) {
-            printf("hei halvveis på vei opp \n");
             if(elevator->currentFloor < o.floor && o.floor < currentOrder->floor) {
                 if(orderArray->size == 2) {
                     orderArray->orderArr[1].btn = orderArray->orderArr[0].btn;
                     orderArray->orderArr[1].floor = orderArray->orderArr[0].floor;
-                    printf("Order is sorted");
                 }
                 else {
                     for(int i = orderArray->size - 2; i >= 0; i--) {
                         orderArray->orderArr[i+1].btn = orderArray->orderArr[i].btn;
-                        orderArray->orderArr[i+1].floorsetDirection = orderArray->orderArr[i].floor;
+                        orderArray->orderArr[i+1].floor = orderArray->orderArr[i].floor;
                     }
                 }
                 orderArray->orderArr[0] = o;
